@@ -1,7 +1,7 @@
 class Battery():
     """_summary_
     """
-    def __init__(self, pos, capacity):
+    def __init__(self, pos_x, pos_y, capacity):
         """_summary_
 
         Args:
@@ -10,7 +10,8 @@ class Battery():
             capacity (_type_): _description_
             houses (list): list of houses connected to battery
         """
-        self.pos = pos
+        self.pos_x = pos_x
+        self.pos_y = pos_y
         self.capacity = capacity
         self.houses = []
         self.price = 0
@@ -36,7 +37,7 @@ class Battery():
         Returns:
             distance: manhattan distance
         """
-        return abs(self.pos[0] - house.pos[1]) + abs(self.pos[0] - house.pos[1])
+        return abs(self.pos_x - house.pos_x) + abs(self.pos_y - house.pos_y)
 
     def plot(self):
         """_summary_
