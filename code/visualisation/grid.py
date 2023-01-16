@@ -1,5 +1,6 @@
 # import package and making objects
 import turtle
+import numpy as np
  
 sc=turtle.Screen()
 trtl=turtle.Turtle()
@@ -96,3 +97,6 @@ def lab():
 lab()
 
 turtle.done()
+
+zero = np.zeros(5,2)
+print(zero)
