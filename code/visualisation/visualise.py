@@ -27,7 +27,7 @@ def visualise(houses, batteries, district):
         if abs(cables[i][0] - cables[i+1][0]) > 1 or abs(cables[i][1] - cables[i+1][1]) > 1:
             continue
         plt.plot([cables[i][0],cables[i+1][0]],[cables[i][1],cables[i+1][1]], 'b-', alpha = 0.6)
-    plt.scatter(x_battery, y_battery, marker='P', c='blue', label ='Batteries', zorder= 10)
+    plt.scatter(x_battery, y_battery, marker='P', c='black', label ='Batteries', zorder= 10)
     plt.scatter(x_house, y_house, marker='^', c='red', label ='Houses', zorder= 10)
     plt.xlabel('x coordinates')
     plt.ylabel('y coordinates')
