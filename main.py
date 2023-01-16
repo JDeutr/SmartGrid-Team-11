@@ -6,10 +6,12 @@ import argparse
 def main(district):
     houses = import_houses(district)
     batteries = import_batteries(district)
+    total_price = 0
     for battery in batteries:
         randomise.randomise_layout(battery, houses)
         battery.update_price(9)
-        print(battery.price)
+        total_price += battery.price
+    print(f"Total price: {total_price}")
     vis.visualise(houses, batteries, district)
 
 def import_houses(district):
