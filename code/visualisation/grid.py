@@ -98,5 +98,4 @@ lab()
 
 turtle.done()
 
-zero = np.zeros(5,2)
-print(zero)
+zero = np.zeros((5,2))
