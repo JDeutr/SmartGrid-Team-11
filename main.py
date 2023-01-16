@@ -8,7 +8,9 @@ def main(district):
     batteries = import_batteries(district)
     for battery in batteries:
         randomise.randomise_layout(battery, houses)
-    vis.visualise(houses, batteries)
+        battery.update_price(9)
+        print(battery.price)
+    vis.visualise(houses, batteries, district)
 
 def import_houses(district):
     houses = []

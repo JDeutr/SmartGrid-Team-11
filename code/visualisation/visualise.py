@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def visualise(houses, batteries):
+def visualise(houses, batteries, district):
     x_house = []
     y_house = []
     x_battery = []
@@ -31,6 +31,6 @@ def visualise(houses, batteries):
     plt.scatter(x_house, y_house, marker='^', c='red', label ='Houses', zorder= 10)
     plt.xlabel('x coordinates')
     plt.ylabel('y coordinates')
-    plt.title("Neighbourhood x")
+    plt.title(f"District {district}")
     plt.legend(loc='upper right')
     plt.show()
