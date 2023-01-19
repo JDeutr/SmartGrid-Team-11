@@ -25,6 +25,11 @@ class Grid():
 
 
     def import_houses(self, district):
+        """_summary_
+
+        Args:
+            district (_type_): _description_
+        """
         with open(f'data/district_{district}/district-{district}_houses.csv', encoding='UTF-8') as house_data:
             next(house_data)
             for row in house_data:
@@ -33,6 +38,11 @@ class Grid():
                 self.houses.append(house.House(int(row[0]), int(row[1]), float(row[2])))
 
     def import_batteries(self, district):
+        """_summary_
+
+        Args:
+            district (_type_): _description_
+        """
         with open(f'data/district_{district}/district-{district}_batteries.csv', encoding='UTF-8') as battery_data:
             next(battery_data)
             for row in battery_data:
@@ -41,12 +51,22 @@ class Grid():
                 self.batteries.append(battery.Battery(int(row[0]),int(row[1]),float(row[2])))
 
     def price_own(self, cable_price=9):
+        """_summary_
+
+        Args:
+            cable_price (int, optional): _description_. Defaults to 9.
+        """
         for battery in self.batteries:
             self.total_price += battery.price
             for house in battery.houses:
                 self.total_price += len(house.cables) * cable_price
 
     def price_shared(self, cable_price=9):
+        """_summary_
+
+        Args:
+            cable_price (int, optional): _description_. Defaults to 9.
+        """
         for battery in self.batteries:
             cables = []
             for house in battery.houses:

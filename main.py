@@ -4,6 +4,14 @@ import argparse
 import json
 
 def main(district, algorithm, price_type, amount=1):
+    """_summary_
+
+    Args:
+        district (_type_): _description_
+        algorithm (_type_): _description_
+        price_type (_type_): _description_
+        amount (int, optional): _description_. Defaults to 1.
+    """
     total_price = 0
     for i in range(amount):
         smart_grid = grid.Grid(district, algorithm, price_type)
