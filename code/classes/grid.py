@@ -2,7 +2,7 @@ from code.classes import battery, house
 from code.algorithms import randomise
 
 class Grid():
-    def __init__(self, district, algorithm):
+    def __init__(self, district, algorithm, price_type):
         """_summary_
         """
         self.district = district
@@ -11,9 +11,17 @@ class Grid():
         self.import_batteries(district)
         self.import_houses(district)
         self.total_price = 0
-        algorithms={"random" : randomise.randomise_layout}
+
+        algorithms={
+            "random" : randomise.randomise_layout
+            }
         algorithms[algorithm](self.batteries, self.houses)
-        self.calculate_price()
+
+        prices={
+            "shared": self.price_shared,
+            "own": self.price_own
+            }
+        prices[price_type]()
 
 
     def import_houses(self, district):
@@ -32,8 +40,15 @@ class Grid():
                 row = row.replace('"','').split(',')
                 self.batteries.append(battery.Battery(int(row[0]),int(row[1]),float(row[2])))
 
-    def calculate_price(self, cable_price=9):
+    def price_own(self, cable_price=9):
         for battery in self.batteries:
             self.total_price += battery.price
             for house in battery.houses:
-                self.total_price += len(house.cables) * 9
+                self.total_price += len(house.cables) * cable_price
+
+    def price_shared(self, cable_price=9):
+        for battery in self.batteries:
+            cables = []
+            for house in battery.houses:
+                cables += house.cables
+            self.total_price += battery.price + (cable_price*len(set(cables)))
