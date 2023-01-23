@@ -22,8 +22,8 @@ if __name__ == "__main__":
     # Adding arguments
     parser.add_argument("district", help = "Enter district number")
     parser.add_argument("amount", help = "Enter amount")
-    parser.add_argument("algorithm", help = "Enter algorithm to use")
-
+    parser.add_argument("algorithm", default = "dijkstra", help = "Enter algorithm to use")
+    
     # Read arguments from command line
     args = parser.parse_args()
 
