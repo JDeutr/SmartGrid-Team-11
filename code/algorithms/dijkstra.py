@@ -28,8 +28,8 @@ def dijkstra_algorithm(batteries, houses):
         closest_distance = float('inf')
         for battery in batteries:
             if battery_remaining_capacity[battery] >= current_house.max_output:
-                distance = ((battery_coordinates[battery][0] - current_house.pos_x) ** 2 + 
-                            (battery_coordinates[battery][1] - current_house.pos_y) ** 2) ** 0.5
+                distance = (abs(battery_coordinates[battery][0] - current_house.pos_x) + 
+                            abs(battery_coordinates[battery][1] - current_house.pos_y))
                 if distance < closest_distance:
                     closest_battery = battery
                     closest_distance = distance
