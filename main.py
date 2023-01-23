@@ -1,38 +1,26 @@
-from code.classes import battery, house
-from code.visualisation import visualise as vis
-from code.algorithms import randomise
+from code.classes import grid
+from code.visualisation import visualise, output
 import argparse
+import json
 
-def main(district):
-    houses = import_houses(district)
-    batteries = import_batteries(district)
+def main(district, algorithm, price_type, amount=1):
+    """_summary_
+
+    Args:
+        district (_type_): _description_
+        algorithm (_type_): _description_
+        price_type (_type_): _description_
+        amount (int, optional): _description_. Defaults to 1.
+    """
     total_price = 0
-    for battery in batteries:
-        randomise.randomise_layout(battery, houses)
-        battery.update_price(9)
-        total_price += battery.price
-    print(f"Total price: {total_price}")
-    vis.visualise(houses, batteries, district)
+    for i in range(amount):
+        smart_grid = grid.Grid(district, algorithm, price_type)
+        total_price += smart_grid.total_price
+    if amount == 1:
+        output.output(smart_grid)
+        visualise.visualise(smart_grid, district)
+    print(f"Average price: {total_price/amount}")
 
-def import_houses(district):
-    houses = []
-    with open(f'data/district_{district}/district-{district}_houses.csv', encoding='UTF-8') as house_data:
-        next(house_data)
-        for row in house_data:
-            row = row.replace("\n",'')
-            row = row.split(',')
-            houses.append(house.House(int(row[0]), int(row[1]), float(row[2])))
-    return houses
-
-def import_batteries(district):
-    batteries=[]
-    with open(f'data/district_{district}/district-{district}_batteries.csv', encoding='UTF-8') as battery_data:
-        next(battery_data)
-        for row in battery_data:
-            row = row.replace("\n",'')
-            row = row.replace('"','').split(',')
-            batteries.append(battery.Battery(int(row[0]),int(row[1]),float(row[2])))
-    return batteries
 
 if __name__ == "__main__":
 
@@ -41,9 +29,12 @@ if __name__ == "__main__":
 
     # Adding arguments
     parser.add_argument("district", help = "Enter district number")
+    parser.add_argument("amount", help = "Enter amount")
+    parser.add_argument("algorithm", help = "Enter algorithm to use")
+    parser.add_argument("price_type", help = "Enter price type to use")
 
     # Read arguments from command line
     args = parser.parse_args()
 
     # Run main with provide arguments
-    main(args.district)
+    main(args.district, args.algorithm, args.price_type, int(args.amount))

@@ -1,12 +1,18 @@
 import matplotlib.pyplot as plt
 
-def visualise(houses, batteries, district):
+def visualise(grid, district):
+    """_summary_
+
+    Args:
+        grid (_type_): _description_
+        district (_type_): _description_
+    """
     x_house = []
     y_house = []
     x_battery = []
     y_battery = []
     cables = []
-    for battery in batteries:
+    for battery in grid.batteries:
         x_battery.append(battery.pos_x)
         y_battery.append(battery.pos_y)
         for house in battery.houses:
