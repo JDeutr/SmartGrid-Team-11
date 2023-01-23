@@ -7,7 +7,7 @@ def output(grid):
         batteries (_type_): _description_
         houses (_type_): _description_
     """
-    grid_json = [{"district":grid.district,
+    grid_json = [{"district":int(grid.district),
     "costs-shared":grid.total_price}]
     houses = []
     for house in grid.houses:
@@ -25,7 +25,7 @@ def output(grid):
             "houses": houses
         })
     
-    grid_json = json.dumps(grid_json, indent=4)
+    grid_json = json.dumps(grid_json, indent=2)
     with open("output.json", "w") as outfile:
         outfile.write(grid_json)
     

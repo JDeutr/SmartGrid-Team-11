@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 
 def visualise(grid, district):
+    """_summary_
+
+    Args:
+        grid (_type_): _description_
+        district (_type_): _description_
+    """
     x_house = []
     y_house = []
     x_battery = []

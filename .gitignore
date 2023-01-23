@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+output.json
 eggs/
 .eggs/
 lib/
