@@ -1,4 +1,4 @@
-from code.algorithms import nearest
+from code.algorithms import nearest, randomise
 
 def prim(batteries, houses):
     nearest.assign(batteries, houses)
