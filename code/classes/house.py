@@ -44,3 +44,7 @@ class House():
             else:
                 cable_y -= 1
                 self.cables.append((cable_x, cable_y))
+
+    def remove_cable(self):
+        self.cables = []
+        

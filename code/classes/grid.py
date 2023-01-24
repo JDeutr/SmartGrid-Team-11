@@ -70,8 +70,13 @@ class Grid():
         Args:
             cable_price (int, optional): _description_. Defaults to 9.
         """
+        self.total_price = 0
+        
         for battery in self.batteries:
             battery_cables = []
             for house in battery.houses:
-                battery_cables.extend(house.cables[:-1])
-            self.total_price += battery.price + (len(set(battery_cables)) * 9)
+
+                cables += house.cables
+            self.total_price += battery.price + (cable_price*len(set(cables)))
+
+        return self.total_price
