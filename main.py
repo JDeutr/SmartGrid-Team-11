@@ -1,5 +1,5 @@
 from code.classes import grid
-from code.visualisation import visualise, output
+from code.visualisation import visualise, output, distribution
 import argparse
 import json
 
@@ -19,6 +19,8 @@ def main(district, algorithm, price_type, amount=1):
     if amount == 1:
         output.output(smart_grid)
         visualise.visualise(smart_grid, district)
+    elif algorithm == 'random':
+        distribution.randomise_algorithm_plot(prices)
     print(f"Average price: {sum(prices)/len(prices)}")
 
 
