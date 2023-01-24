@@ -8,17 +8,18 @@ def output(grid):
         houses (_type_): _description_
     """
     grid_json = [{"district":int(grid.district),
-    "costs-shared":grid.total_price}]
-    houses = []
-    for house in grid.houses:
-        cables = []
-        for cable in house.cables:
-            cables.append(f"{cable[0]},{cable[1]}")
-        houses.append({
+    f"costs-{grid.price_type}":grid.total_price}]
+    
+    for battery in grid.batteries:
+        houses = []
+        for house in battery.houses:
+            cables = []
+            for cable in house.cables:
+                cables.append(f"{cable[0]},{cable[1]}")
+            houses.append({
             "location": f"{house.pos_x},{house.pos_y}",
             "output": house.max_output,
             "cables": cables})
-    for battery in grid.batteries:
         grid_json.append({
             "location":f"{battery.pos_x},{battery.pos_y}",
             "capacity": battery.capacity,

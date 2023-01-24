@@ -13,5 +13,6 @@ class Battery():
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.capacity = capacity
+        self.current_capacity = capacity
         self.houses = []
         self.price = price

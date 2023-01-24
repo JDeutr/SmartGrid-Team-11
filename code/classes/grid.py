@@ -1,5 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, dijkstra
+from code.algorithms import randomise, prim, dijkstra, nearest
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -11,8 +11,11 @@ class Grid():
         self.import_batteries(district)
         self.import_houses(district)
         self.total_price = 0
+        
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm}
+                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "nearest" : nearest.nearest,
+                    "prim" : prim.prim}
         algorithms[algorithm](self.batteries, self.houses)
 
         prices={
@@ -55,9 +58,10 @@ class Grid():
             cable_price (int, optional): _description_. Defaults to 9.
         """
         for battery in self.batteries:
-            self.total_price += battery.price
+            cables = 0
             for house in battery.houses:
-                self.total_price += len(house.cables) * cable_price
+                cables += len(house.cables) - 1
+            self.total_price += battery.price + (cables * 9)
 
     def price_shared(self, cable_price=9):
         """_summary_
@@ -66,7 +70,9 @@ class Grid():
             cable_price (int, optional): _description_. Defaults to 9.
         """
         for battery in self.batteries:
-            cables = []
+            cables = 0
             for house in battery.houses:
-                cables += house.cables
-            self.total_price += battery.price + (cable_price*len(set(cables)))
+                cables += len(house.cables) - 1
+            print(cables)
+            self.total_price += battery.price + (cables * 9)
+            
