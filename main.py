@@ -12,14 +12,14 @@ def main(district, algorithm, price_type, amount=1):
         price_type (_type_): _description_
         amount (int, optional): _description_. Defaults to 1.
     """
-    total_price = 0
+    prices = []
     for i in range(amount):
         smart_grid = grid.Grid(district, algorithm, price_type)
-        total_price += smart_grid.total_price
+        prices.append(smart_grid.total_price)
     if amount == 1:
         output.output(smart_grid)
         visualise.visualise(smart_grid, district)
-    print(f"Average price: {total_price/amount}")
+    print(f"Average price: {sum(prices)/len(prices)}")
 
 
 if __name__ == "__main__":
