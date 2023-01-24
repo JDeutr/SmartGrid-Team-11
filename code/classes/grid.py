@@ -63,6 +63,7 @@ class Grid():
                 cables += len(house.cables) - 1
             self.total_price += battery.price + (cables * 9)
 
+
     def price_shared(self, cable_price=9):
         """_summary_
 
@@ -70,9 +71,7 @@ class Grid():
             cable_price (int, optional): _description_. Defaults to 9.
         """
         for battery in self.batteries:
-            cables = 0
+            battery_cables = []
             for house in battery.houses:
-                cables += len(house.cables) - 1
-            print(cables)
-            self.total_price += battery.price + (cables * 9)
-            
+                battery_cables.extend(house.cables[:-1])
+            self.total_price += battery.price + (len(set(battery_cables)) * 9)
