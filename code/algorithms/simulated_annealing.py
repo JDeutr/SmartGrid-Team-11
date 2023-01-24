@@ -1,9 +1,9 @@
-from code.algorithms import randomise
-from code.classes import grid, battery, house
+from code.classes import grid
+from code.visualisation import visualise
 import random
 import copy
 
-def simulated_annealing(batteries, houses):
+def simulated_annealing(grid):
     """
     Finds the lowest cost od the smart grid by randomly assigning houses to different 
     batteries. The change is adopted when the cost is lower than the cost of the previous state.
@@ -12,12 +12,12 @@ def simulated_annealing(batteries, houses):
     """
 
     # start with a randomised grid
-    initial_grid = grid.Grid(1, "random", "shared")
+    initial_grid = grid
     initial_price = initial_grid.price_shared(9)
     print(f" The initial price is {initial_price}")
 
     # assign a random house to a new battery over 100 iterations
-    for i in range(2000):
+    for i in range(200):
         # dupicate grid
         new_grid = copy.deepcopy(initial_grid)
 
@@ -31,14 +31,13 @@ def simulated_annealing(batteries, houses):
 
         # find new price 
         total_price = new_grid.price_shared(9)
-        print(f"After {i} iterations the total price is {total_price}")
 
         # adopt new state if price is lower than 
         if total_price < initial_price:
             initial_price = total_price
             initial_grid = copy.deepcopy(new_grid)
 
+    # visualise grid
+    print(f"After {i} iterations the total price is {total_price}")
 
-    return initial_grid.batteries
-
-simulated_annealing()
+    return initial_grid

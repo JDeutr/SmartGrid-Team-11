@@ -1,5 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, dijkstra
+from code.algorithms import randomise, dijkstra, simulated_annealing
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -12,7 +12,8 @@ class Grid():
         self.import_houses(district)
         self.total_price = 0
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm}
+                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "sa": randomise.randomise_layout}
         algorithms[algorithm](self.batteries, self.houses)
 
         prices={
@@ -20,6 +21,9 @@ class Grid():
             "own": self.price_own
             }
         prices[price_type]()
+
+        if algorithm == "sa":
+            simulated_annealing.simulated_annealing(self)
 
 
     def import_houses(self, district):
@@ -66,7 +70,7 @@ class Grid():
             cable_price (int, optional): _description_. Defaults to 9.
         """
         self.total_price = 0
-        
+
         for battery in self.batteries:
             cables = []
             for house in battery.houses:
