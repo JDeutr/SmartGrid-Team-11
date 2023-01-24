@@ -5,6 +5,7 @@ SmartGrid opdracht voor Algoritmen en Heuristieken van Team 11
 
 algorithms:
 - random
+- dijkstra
 
 types of cost calculation:
 - shared
