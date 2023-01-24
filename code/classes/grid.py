@@ -1,5 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, nearest, prim
+from code.algorithms import randomise, prim, dijkstra, nearest
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -11,13 +11,11 @@ class Grid():
         self.import_batteries(district)
         self.import_houses(district)
         self.total_price = 0
-        self.price_type = price_type
-
-        algorithms={
-            "random" : randomise.randomise_layout,
-            "nearest" : nearest.nearest,
-            "prim" : prim.prim
-            }
+        
+        algorithms={"random" : randomise.randomise_layout,
+                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "nearest" : nearest.nearest,
+                    "prim" : prim.prim}
         algorithms[algorithm](self.batteries, self.houses)
 
         prices={
