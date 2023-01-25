@@ -1,5 +1,9 @@
 from code.classes import battery, house
-from code.algorithms import randomise, nearest, prim
+<<<<<<< HEAD
+from code.algorithms import randomise, dijkstra, simulated_annealing
+=======
+from code.algorithms import randomise, prim, dijkstra, nearest
+>>>>>>> 2b8daba4ea585a591ecafc8bc95f87073ce68f36
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -11,13 +15,15 @@ class Grid():
         self.import_batteries(district)
         self.import_houses(district)
         self.total_price = 0
-        self.price_type = price_type
-
-        algorithms={
-            "random" : randomise.randomise_layout,
-            "nearest" : nearest.nearest,
-            "prim" : prim.prim
-            }
+        
+        algorithms={"random" : randomise.randomise_layout,
+                    "dijkstra" : dijkstra.dijkstra_algorithm,
+<<<<<<< HEAD
+                    "sa": randomise.randomise_layout}
+=======
+                    "nearest" : nearest.nearest,
+                    "prim" : prim.prim}
+>>>>>>> 2b8daba4ea585a591ecafc8bc95f87073ce68f36
         algorithms[algorithm](self.batteries, self.houses)
 
         prices={
@@ -25,6 +31,9 @@ class Grid():
             "own": self.price_own
             }
         prices[price_type]()
+
+        if algorithm == "sa":
+            simulated_annealing.simulated_annealing(self)
 
 
     def import_houses(self, district):
@@ -72,8 +81,13 @@ class Grid():
         Args:
             cable_price (int, optional): _description_. Defaults to 9.
         """
+        self.total_price = 0
+
         for battery in self.batteries:
             battery_cables = []
             for house in battery.houses:
-                battery_cables.extend(house.cables[:-1])
-            self.total_price += battery.price + (len(set(battery_cables)) * 9)
+
+                cables += house.cables
+            self.total_price += battery.price + (cable_price*len(set(cables)))
+
+        return self.total_price

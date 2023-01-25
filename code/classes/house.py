@@ -14,6 +14,12 @@ class House():
         self.max_output = max_output
         self.cables = []
 
+    def __lt__(self, other):
+        """
+        Compare two house objects based on their max_output
+        """
+        return self.max_output < other.max_output
+
     def lay_cable(self, pos_x, pos_y):
         """_summary_
 
@@ -38,3 +44,7 @@ class House():
             else:
                 cable_y -= 1
                 self.cables.append((cable_x, cable_y))
+
+    def remove_cable(self):
+        self.cables = []
+        
