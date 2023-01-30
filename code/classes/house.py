@@ -47,4 +47,3 @@ class House():
 
     def remove_cable(self):
         self.cables = []
-        
