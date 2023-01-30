@@ -1,6 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, dijkstra, simulated_annealing
-from code.algorithms import randomise, prim, dijkstra, nearest
+from code.algorithms import randomise, prim, dijkstra, nearest, simulated_annealing
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -20,7 +19,7 @@ class Grid():
                     "sa": randomise.randomise_layout,
                     "nearest" : nearest.nearest,
                     "prim" : prim.prim}
-
+                    
         algorithms[algorithm](self.batteries, self.houses)
 
         if algorithm == "sa":
@@ -80,12 +79,9 @@ class Grid():
         Args:
             cable_price (int, optional): _description_. Defaults to 9.
         """
-        self.total_price = 0
-
         for battery in self.batteries:
-            battery_cables = []
+            cables = []
             for house in battery.houses:
-
                 battery_cables.extend(house.cables[:-1])
             self.total_price += battery.price + (cable_price*len(set(battery_cables)))
 
@@ -97,3 +93,7 @@ class Grid():
                 self.cables.append(cable)
                 cables = set(self.cables)
                 self.cables = list(cables)
+
+###cables += house.cables
+###self.total_price += battery.price + (cable_price*(len(set(cables))-1))
+
