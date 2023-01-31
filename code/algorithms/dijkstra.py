@@ -47,4 +47,4 @@ def dijkstra_algorithm(batteries, houses):
 
     # Update each battery's remaining capacity
     for battery in batteries:
-        battery.capacity = battery_remaining_capacity[battery]
+        battery.current_capacity = battery_remaining_capacity[battery]
