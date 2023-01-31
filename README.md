@@ -20,5 +20,5 @@ algorithms:
 - sa (simulated annealing)
 
 types of cost calculation:
-- shared
 - own
+- shared
