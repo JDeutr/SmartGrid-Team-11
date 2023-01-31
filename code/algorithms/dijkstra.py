@@ -2,7 +2,9 @@ import heapq
 
 def dijkstra_algorithm(batteries, houses):
     """
-    Assigns houses to batteries using the dijkstra algorithm
+    Assigns houses to batteries using a nearest algorithm, inspired by Dijkstra. Uses 
+    a priority queue to assign houses, finds the closest battery to the current house
+    and assigns that house to the that battery. Stops when all houses are assigned.
     """
     # Make a dictionary of batteries to their x, y coordinates
     battery_coordinates = {battery: (battery.pos_x, battery.pos_y) for battery in batteries}
@@ -12,17 +14,19 @@ def dijkstra_algorithm(batteries, houses):
     house_to_battery = {}
     # Make a dictionary of battery to its remaining capacity
     battery_remaining_capacity = {battery: battery.capacity for battery in batteries}
-    # Initialize the distance of each house to infinity
-    house_distances = {house: float('inf') for house in houses}
+
     # Add each house to the priority queue
     for house in houses:
         heapq.heappush(priority_queue, (0, house))
+
     # Run dijkstra algorithm
     while priority_queue:
         distance, current_house = heapq.heappop(priority_queue)
+
         # Check if the current house has already been assigned to a battery
         if current_house in house_to_battery:
             continue
+
         # Find the closest battery to the current house
         closest_battery = None
         closest_distance = float('inf')
@@ -33,9 +37,14 @@ def dijkstra_algorithm(batteries, houses):
                 if distance < closest_distance:
                     closest_battery = battery
                     closest_distance = distance
+
         # Assign the current house to the closest battery
         if closest_battery:
             house_to_battery[current_house] = closest_battery
             battery_remaining_capacity[closest_battery] -= current_house.max_output
             current_house.lay_cable(closest_battery.pos_x, closest_battery.pos_y)
             closest_battery.houses.append(current_house)
+
+    # Update each battery's remaining capacity
+    for battery in batteries:
+        battery.capacity = battery_remaining_capacity[battery]
