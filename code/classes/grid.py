@@ -1,5 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, prim, dijkstra, nearest, simulated_annealing
+from code.algorithms import randomise, prim, dijkstra, greedy, simulated_annealing
 import copy
 
 class Grid():
@@ -19,15 +19,10 @@ class Grid():
         algorithms={"random" : randomise.randomise_layout,
                     "nearest" : dijkstra.dijkstra_algorithm,
                     "sa": randomise.randomise_layout,
-                    "greedy" : nearest.nearest,
+                    "greedy" : greedy.greedy,
                     "prim" : prim.prim}
                     
         algorithms[algorithm](self.batteries, self.houses)
-
-        # if algorithm == "sa":
-        #     self.arrange_cables()
-        #     self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
-        #     simulated_annealing.rearrange_cables(self)
 
         prices={
             "shared": self.price_shared,
@@ -73,14 +68,11 @@ class Grid():
         """
         Calculates price when cables are shared
         """
-        self.total_price = 0
         for battery in self.batteries:
             cables = []
             for house in battery.houses:
-                cables += house.cables
+                cables += house.cables[:-1]
             self.total_price += battery.price + (cable_price*(len(set(cables))))
-
-        return self.total_price
 
     def arrange_cables(self):
         for house in self.houses:

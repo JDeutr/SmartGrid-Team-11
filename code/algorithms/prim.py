@@ -1,4 +1,4 @@
-from code.algorithms import nearest, randomise
+from code.algorithms import greedy, randomise
 import random
 
 def prim(batteries, houses):
@@ -7,7 +7,7 @@ def prim(batteries, houses):
     """
 
     # assigns houses to nearest batteries
-    nearest.assign(batteries, houses)
+    greedy.assign(batteries, houses)
 
     # generates minimum spanning tree for each battery
     for battery in batteries:
@@ -40,7 +40,10 @@ def prim(batteries, houses):
 
         # lays each edge of spanning tree
         for result in results:
+
+            # try except as the battery object does not have lay_cable() function
             try:
+                # checks if house already has cables assigned to it
                 if len(points[result[0]].cables) == 0:
                     points[result[0]].lay_cable(points[result[1]].pos_x, points[result[1]].pos_y)
                 else:

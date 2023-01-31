@@ -1,13 +1,10 @@
 class House():
-    """_summary_
+    """
+    Battery class
     """
     def __init__(self, pos_x, pos_y, max_output):
-        """_summary_
-
-        Args:
-            pos_x (_type_): _description_
-            pos_y (_type_): _description_
-            max_output (_type_): _description_
+        """
+        Initializes battery class
         """
         self.pos_x = pos_x
         self.pos_y = pos_y

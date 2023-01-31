@@ -1,4 +1,4 @@
-def nearest(batteries, houses):
+def greedy(batteries, houses):
     """
     Greedily assigns houses to nearest battery
     """
