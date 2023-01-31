@@ -1,24 +1,34 @@
 from code.classes import grid
-from code.visualisation import visualise, output
+from code.visualisation import visualise, output, result
 import argparse
 import json
+from time import process_time
 
 def main(district, algorithm, price_type, amount=1):
     """_summary_
-
     Args:
         district (_type_): _description_
         algorithm (_type_): _description_
         price_type (_type_): _description_
         amount (int, optional): _description_. Defaults to 1.
     """
+    time_start = process_time()
     prices = []
     for i in range(amount):
         smart_grid = grid.Grid(district, algorithm, price_type)
         prices.append(smart_grid.total_price)
     if amount == 1:
         output.output(smart_grid)
+        time_stop = process_time()
+        print(time_stop - time_start)
         visualise.visualise(smart_grid, district)
+    elif algorithm == 'random':
+        time_stop = process_time()
+        print(time_stop - time_start)
+        result.randomise_algorithm_plot(prices, district)
+    else:
+        time_stop = process_time()
+        print(time_stop - time_start)
     print(f"Average price: {sum(prices)/len(prices)}")
 
 
