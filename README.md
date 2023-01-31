@@ -15,7 +15,7 @@ amount of times:
 
 algorithms:
 - random
-- shortest
+- nearest
 - prim
 - sa (simulated annealing)
 
