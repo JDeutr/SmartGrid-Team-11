@@ -17,7 +17,7 @@ algorithms:
 - random
 - shortest
 - prim
-- as (simulated annealing)
+- sa (simulated annealing)
 
 types of cost calculation:
 - shared
