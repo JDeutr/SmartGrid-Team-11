@@ -16,7 +16,7 @@ class Grid():
         self.cables = []
         
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "shortest" : dijkstra.dijkstra_algorithm,
                     "sa": randomise.randomise_layout,
                     "nearest" : nearest.nearest,
                     "prim" : prim.prim}
