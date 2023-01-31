@@ -16,17 +16,17 @@ class Grid():
         self.cables = []
         
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "nearest" : dijkstra.dijkstra_algorithm,
                     "sa": randomise.randomise_layout,
-                    "nearest" : nearest.nearest,
+                    "greedy" : nearest.nearest,
                     "prim" : prim.prim}
                     
         algorithms[algorithm](self.batteries, self.houses)
 
-        if algorithm == "sa":
-            self.arrange_cables()
-            self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
-            simulated_annealing.rearrange_cables(self)
+        # if algorithm == "sa":
+        #     self.arrange_cables()
+        #     self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
+        #     simulated_annealing.rearrange_cables(self)
 
         prices={
             "shared": self.price_shared,
@@ -85,7 +85,7 @@ class Grid():
             cables = []
             for house in battery.houses:
                 cables += house.cables
-            self.total_price += battery.price + (cable_price*(len(set(cables))-1))
+            self.total_price += battery.price + (cable_price*(len(set(cables))))
 
         return self.total_price
 
