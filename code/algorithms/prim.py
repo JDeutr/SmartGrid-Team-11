@@ -1,18 +1,25 @@
-from code.algorithms import nearest
+from code.algorithms import nearest, randomise
+import random
 
 def prim(batteries, houses):
     nearest.assign(batteries, houses)
     for battery in batteries:
         results = []
-        n = len(battery.houses) + 1
-        points = [battery] + battery.houses
-        visited = [0] * n
+        points = battery.houses
+        points = [battery] + points
+        visited = [0] * len(points)
         visited[0] = True
-        for _ in range(n - 1):
+
+        # run until there are n-1 edges
+        for _ in range(len(points) - 1):
             min_edge = [None, None, float('inf')]
-            for i in range(n):
+
+            # check distance between current point and every other point
+            for i in range(len(points)):
                 if visited[i]:
-                    for j in range(n):
+
+                    # checks if distance between points is smallest
+                    for j in range(len(points)):
                         if not visited[j]:
                             distance = abs(points[i].pos_x - points[j].pos_x) + abs(points[i].pos_y - points[j].pos_y)
                             if distance < min_edge[2]:
@@ -25,6 +32,5 @@ def prim(batteries, houses):
                     points[result[0]].lay_cable(points[result[1]].pos_x, points[result[1]].pos_y)
                 else:
                     points[result[1]].lay_cable(points[result[0]].pos_x, points[result[0]].pos_y)
-
             except:
                 points[result[1]].lay_cable(points[result[0]].pos_x, points[result[0]].pos_y)

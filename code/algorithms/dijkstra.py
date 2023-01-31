@@ -44,3 +44,6 @@ def dijkstra_algorithm(batteries, houses):
             battery_remaining_capacity[closest_battery] -= current_house.max_output
             current_house.lay_cable(closest_battery.pos_x, closest_battery.pos_y)
             closest_battery.houses.append(current_house)
+    # Update each battery's remaining capacity
+    for battery in batteries:
+        battery.capacity = battery_remaining_capacity[battery]
