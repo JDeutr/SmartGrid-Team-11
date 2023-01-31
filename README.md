@@ -22,3 +22,5 @@ algorithms:
 types of cost calculation:
 - own
 - shared
+
+Results can be found in output.json
