@@ -23,10 +23,10 @@ class Grid():
                     
         algorithms[algorithm](self.batteries, self.houses)
 
-        if algorithm == "sa":
-            self.arrange_cables()
-            self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
-            simulated_annealing.rearrange_cables(self)
+        # if algorithm == "sa":
+        #     self.arrange_cables()
+        #     self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
+        #     simulated_annealing.rearrange_cables(self)
 
         prices={
             "shared": self.price_shared,
@@ -85,7 +85,7 @@ class Grid():
             cables = []
             for house in battery.houses:
                 cables += house.cables
-            self.total_price += battery.price + (cable_price*(len(set(cables))-1))
+            self.total_price += battery.price + (cable_price*(len(set(cables))))
 
         return self.total_price
 
