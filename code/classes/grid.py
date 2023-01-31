@@ -11,9 +11,10 @@ class Grid():
         self.import_batteries(district)
         self.import_houses(district)
         self.total_price = 0
+        self.price_type = price_type
         
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "shortest" : dijkstra.dijkstra_algorithm,
                     "nearest" : nearest.nearest,
                     "prim" : prim.prim}
         algorithms[algorithm](self.batteries, self.houses)
@@ -70,9 +71,8 @@ class Grid():
             cable_price (int, optional): _description_. Defaults to 9.
         """
         for battery in self.batteries:
-            cables = 0
+            battery_cables = []
             for house in battery.houses:
-                cables += len(house.cables) - 1
-            print(cables)
-            self.total_price += battery.price + (cables * 9)
+                battery_cables.extend(house.cables[:-1])
+            self.total_price += battery.price + (len(set(battery_cables)) * 9)
             
