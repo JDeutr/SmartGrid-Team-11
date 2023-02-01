@@ -5,7 +5,7 @@ import copy, math
 
 def rearrange_houses(grid):
     """
-    Finds the lowest cost od the smart grid by randomly assigning houses to different 
+    Finds the lowest cost of the smart grid by randomly assigning houses to different 
     batteries. The change is adopted when the cost is lower than the cost of the previous state.
     The state is optimized over many iterations. This algorithm does not yet influence the route
     of the cables to the houses
