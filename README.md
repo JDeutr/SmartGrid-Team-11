@@ -3,7 +3,7 @@ SmartGrid opdracht voor Algoritmen en Heuristieken van The Voltage Visionairs(Te
 
 <br/>To run:
 <br/> python main.py (district) (amount of times) (algorithm) (type of cost calculation)
-<br/> python main.py 1 1 random own
+<br/> python main.py 1 1 random own (for example)
 
 district:
 - 1
