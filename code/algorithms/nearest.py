@@ -1,6 +1,6 @@
 import heapq
 
-def dijkstra_algorithm(batteries, houses):
+def nearest_algorithm(batteries, houses):
     """
     Assigns houses to batteries using a nearest algorithm, inspired by Dijkstra. Uses 
     a priority queue to assign houses, finds the closest battery to the current house

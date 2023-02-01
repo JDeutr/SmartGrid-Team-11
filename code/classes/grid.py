@@ -1,5 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, prim, dijkstra, greedy, simulated_annealing
+from code.algorithms import nearest, randomise, prim, greedy, simulated_annealing
 import copy
 
 class Grid():
@@ -17,7 +17,7 @@ class Grid():
         self.cables = set()
         
         algorithms={"random" : randomise.randomise_layout,
-                    "nearest" : dijkstra.dijkstra_algorithm,
+                    "nearest" : nearest.nearest_algorithm,
                     "sa": randomise.randomise_layout,
                     "greedy" : greedy.greedy,
                     "prim" : prim.prim}
