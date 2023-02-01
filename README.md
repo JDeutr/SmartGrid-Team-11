@@ -9,7 +9,7 @@ The nearest algorithm uses a priority queue to assign houses and finds the close
 
 The prim algorithm generates a minimum spanning trees of the batteries and their assigned houses.
 
-The simulated annealing algorithm finds the lowest cost of the smart grid by randomly assigning houses to different batteries. The change is adopted when the cost is lower than the cost of the previous state. The state is optimized over many iterations.
+The simulated annealing algorithm finds the lowest cost of the smart grid by randomly assigning houses to different batteries. The change is adopted when the cost is lower than the cost of the previous state or when the temperature function allows a state with a higher cost. The state is optimized over 10000 iterations.
 
 <br/>To run:
 <br/> python main.py (district) (amount of times) (algorithm) (type of cost calculation)
