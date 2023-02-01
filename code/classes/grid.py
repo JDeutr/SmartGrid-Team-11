@@ -1,6 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import randomise, prim, dijkstra, nearest, simulated_annealing
-import copy
+from code.algorithms import randomise, prim, dijkstra, nearest
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -13,7 +12,6 @@ class Grid():
         self.import_houses(district)
         self.total_price = 0
         self.price_type = price_type
-        self.cables = []
         
         algorithms={"random" : randomise.randomise_layout,
                     "dijkstra" : dijkstra.dijkstra_algorithm,
@@ -22,11 +20,6 @@ class Grid():
                     "prim" : prim.prim}
                     
         algorithms[algorithm](self.batteries, self.houses)
-
-        # if algorithm == "sa":
-        #     self.arrange_cables()
-        #     self = copy.deepcopy(simulated_annealing.rearrange_houses(self))
-        #     simulated_annealing.rearrange_cables(self)
 
         prices={
             "shared": self.price_shared,
@@ -71,7 +64,7 @@ class Grid():
             cables = 0
             for house in battery.houses:
                 cables += len(house.cables) - 1
-            self.total_price += battery.price + (cables * 9)
+            self.total_price += battery.price + (cables * cable_price)
 
 
     def price_shared(self, cable_price=9):
@@ -88,10 +81,3 @@ class Grid():
             self.total_price += battery.price + (cable_price*(len(set(cables))))
 
         return self.total_price
-
-    def arrange_cables(self):
-        for house in self.houses:
-            for cable in house.cables:
-                self.cables.append(cable)
-                cables = set(self.cables)
-                self.cables = list(cables)

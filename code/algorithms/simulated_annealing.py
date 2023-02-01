@@ -1,7 +1,4 @@
-from code.classes import grid
-from code.visualisation import visualise
-import random
-import copy, math
+import random, copy, math
 
 def rearrange_houses(grid):
     """
@@ -11,94 +8,75 @@ def rearrange_houses(grid):
     of the cables to the houses
     """
 
-    # start with a randomised grid
-    current_temp = 50
+    # define temperature scheme
+    current_temp = 100
     final_temp = 0.01
     alpha = 0.01
+
+    # start with a randomized grid
     initial_grid = grid
     initial_price = initial_grid.price_shared(9)
     print(f" The initial price is {initial_price}")
 
-    # assign a random house to a new battery over 100 iterations
+    # track amount of adopted states and states with overloaded batteries
+    overload_count = 0
+    adopted = 0
+
+    # assign a random house to a new battery over 5000 iterations
     while current_temp > final_temp:
         # dupicate grid
         new_grid = copy.deepcopy(initial_grid)
 
         # select a random house and remove it's cable
-        rand_house = random.choice(new_grid.houses)
-        rand_house.remove_cable()
+        rand_battery1, rand_battery2 = random.sample(new_grid.batteries, 2)
+        rand_house1 = random.choice(rand_battery1.houses)
+        rand_house2 = random.choice(rand_battery2.houses)
 
-        # connect house to another battery
-        rand_battery = random.choice(new_grid.batteries)
-        rand_house.lay_cable(rand_battery.pos_x, rand_battery.pos_y)
+        # disconnect houses from batteries
+        rand_house1.remove_cable()
+        rand_house2.remove_cable()
+        rand_battery1.houses.remove(rand_house1)
+        rand_battery2.houses.remove(rand_house2)
+        
+        # connect houses to new cables
+        rand_house1.lay_cable(rand_battery2.pos_x, rand_battery2.pos_y)
+        rand_house2.lay_cable(rand_battery1.pos_x, rand_battery1.pos_y)
+
+        # assign houses to new battery for cost and capacity calculation
+        rand_battery1.houses.append(rand_house2)
+        rand_battery2.houses.append(rand_house1)
 
         # find new price 
         total_price = new_grid.price_shared(9)
         cost_diff = total_price - initial_price
 
+        # check the capacity
+        overload = False
+        for battery in new_grid.batteries:
+            overload += battery.check_capacity()
+
         # adopt new state if price is lower than initial price
-        if cost_diff < 0:
+        if cost_diff < 0 and overload == False:
             initial_price = total_price
             initial_grid = copy.deepcopy(new_grid)
+            adopted += 1
         
         # if the new solution is not better, accept it with a probability of e^(-cost/temp)
-        else:
+        elif cost_diff > 0 and overload == False:
             if random.uniform(0, 1) < math.exp(-cost_diff / current_temp):
                 initial_grid = copy.deepcopy(new_grid)
+                adopted += 1
+
+        else:
+            overload_count += 1
             
         # decrement the temperature
         current_temp -= alpha
 
     # visualise grid
+    total_price = initial_grid.price_shared(9)
     print(f"After 1000 iterations the total price is {total_price}")
+    print(f'overload count is equal to {overload_count}')
+    print(f'Number of adopted states is {adopted}')
 
     return initial_grid
-
-#def rearrange_cables(grid):
-    """
-    Simulated annealling algorithm that finds the nearerst cable for a random house 
-    and connects the house to said cable. A temperature function and the difference 
-    in cost is used to select the a new states. The algorithm iterates 1000 times.
-    """
-
-    # start with an improved grid
-    initial_grid = grid
-    initial_price = initial_grid.price_shared(9)
-
-    # iterate
-    for i in range(100):
-        new_grid = copy.deepcopy(initial_grid)
-        rand_house = random.choice(new_grid.houses)
-        rand_house.remove_cable()
-        shortest = 100
-        best = (0, 0)
-        
-        # find nearby cables for house 
-        for cable in grid.cables:
-            distance = manhattan_distance(rand_house.pos_x, rand_house.pos_y, cable[0], cable[1])
-            if distance < shortest:                
-                shortest = distance
-                best = cable
-        rand_house.lay_cable(best[0], best[1])
-
-        # find new price
-        total_price = new_grid.price_shared(9)
-        cost_diff = total_price - initial_price
-
-        # adopt new state if price is lower than initial price
-        if cost_diff < 0:
-            initial_price = total_price
-            initial_grid = copy.deepcopy(new_grid)
-            initial_grid.arrange_cables()        
-
-    # visualise grid
-    print(f"After 1000 iterations the total price is {initial_price}")
-
-    return initial_grid
-
-#def manhattan_distance(x_1, y_1, x_2, y_2):
-    """
-    Find distance between two points
-    """
-    return abs((x_1 - x_2) + (y_1 - y_2))
-

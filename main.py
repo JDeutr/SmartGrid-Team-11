@@ -19,9 +19,7 @@ def main(district, algorithm, price_type, amount=1):
     for i in range(amount):
         smart_grid = grid.Grid(district, algorithm, price_type)
         if algorithm == "sa":
-            smart_grid.arrange_cables()
             smart_grid = copy.deepcopy(simulated_annealing.rearrange_houses(smart_grid))
-            #smart_grid = copy.deepcopy(simulated_annealing.rearrange_cables(smart_grid))
         prices.append(smart_grid.total_price)
 
     if amount == 1:
