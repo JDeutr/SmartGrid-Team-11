@@ -12,3 +12,19 @@ class Battery():
         self.current_capacity = capacity
         self.houses = []
         self.price = price
+
+    def check_capacity(self):
+        """
+        Checks if the capacity of a battery is exceeded and by how much
+        """
+        load = 0
+        for house in self.houses:
+            load += house.max_output
+        overload = load - self.capacity
+
+        # Only return overload if positive value
+        if overload > 0:
+            return True
+
+        else:
+            return False

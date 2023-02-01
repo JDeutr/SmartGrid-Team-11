@@ -1,6 +1,5 @@
 from code.classes import battery, house
-from code.algorithms import nearest, randomise, prim, greedy, simulated_annealing
-import copy
+from code.algorithms import randomise, prim, dijkstra, nearest
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
@@ -61,7 +60,7 @@ class Grid():
             cables = 0
             for house in battery.houses:
                 cables += len(house.cables) - 1
-            self.total_price += battery.price + (cables * 9)
+            self.total_price += battery.price + (cables * cable_price)
 
 
     def price_shared(self, cable_price=9):
@@ -73,8 +72,4 @@ class Grid():
             for house in battery.houses:
                 cables += house.cables[:-1]
             self.total_price += battery.price + (cable_price*(len(set(cables))))
-
-    def arrange_cables(self):
-        for house in self.houses:
-            for cable in house.cables:
-                self.cables.add(cable)
+        return self.total_price
