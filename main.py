@@ -6,31 +6,34 @@ import json, copy
 from time import process_time
 
 def main(district, algorithm, price_type, amount=1):
-    """_summary_
-
-    Args:
-        district (_type_): _description_
-        algorithm (_type_): _description_
-        price_type (_type_): _description_
-        amount (int, optional): _description_. Defaults to 1.
     """
+    Creates a grid based on the algorithm and district and times all operations before plotting
+    """
+    # starts time
     time_start = process_time()
+   
     prices = []
+
+    # runs the algoritm n amount of times
     for i in range(amount):
         smart_grid = grid.Grid(district, algorithm, price_type)
         if algorithm == "sa":
             smart_grid = copy.deepcopy(simulated_annealing.rearrange_houses(smart_grid))
         prices.append(smart_grid.total_price)
 
+    # checks if amount is 1 and plots if True
     if amount == 1:
         output.output(smart_grid)
         time_stop = process_time()
         print(time_stop - time_start)
         visualise.visualise(smart_grid, district)
+
+    # generates distribution plot if algorithm is random
     elif algorithm == 'random':
         time_stop = process_time()
         print(time_stop - time_start)
         distribution.randomise_algorithm_plot(prices, district)
+
     else:
         time_stop = process_time()
         print(time_stop - time_start)

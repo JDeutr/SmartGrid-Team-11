@@ -3,7 +3,8 @@ from code.algorithms import randomise, prim, dijkstra, nearest
 
 class Grid():
     def __init__(self, district, algorithm, price_type):
-        """_summary_
+        """
+        Grid class
         """
         self.district = district
         self.houses = []
@@ -12,11 +13,12 @@ class Grid():
         self.import_houses(district)
         self.total_price = 0
         self.price_type = price_type
+        self.cables = set()
         
         algorithms={"random" : randomise.randomise_layout,
-                    "dijkstra" : dijkstra.dijkstra_algorithm,
+                    "nearest" : nearest.nearest_algorithm,
                     "sa": randomise.randomise_layout,
-                    "nearest" : nearest.nearest,
+                    "greedy" : greedy.greedy,
                     "prim" : prim.prim}
                     
         algorithms[algorithm](self.batteries, self.houses)
@@ -29,10 +31,8 @@ class Grid():
    
 
     def import_houses(self, district):
-        """_summary_
-
-        Args:
-            district (_type_): _description_
+        """
+        Imports houses from csv
         """
         with open(f'data/district_{district}/district-{district}_houses.csv', encoding='UTF-8') as house_data:
             next(house_data)
@@ -42,10 +42,8 @@ class Grid():
                 self.houses.append(house.House(int(row[0]), int(row[1]), float(row[2])))
 
     def import_batteries(self, district):
-        """_summary_
-
-        Args:
-            district (_type_): _description_
+        """
+        Imports batteries from csv
         """
         with open(f'data/district_{district}/district-{district}_batteries.csv', encoding='UTF-8') as battery_data:
             next(battery_data)
@@ -55,10 +53,8 @@ class Grid():
                 self.batteries.append(battery.Battery(int(row[0]),int(row[1]),float(row[2])))
 
     def price_own(self, cable_price=9):
-        """_summary_
-
-        Args:
-            cable_price (int, optional): _description_. Defaults to 9.
+        """
+        Calculates price when each house has their own cable
         """
         for battery in self.batteries:
             cables = 0
@@ -68,16 +64,12 @@ class Grid():
 
 
     def price_shared(self, cable_price=9):
-        """_summary_
-
-        Args:
-            cable_price (int, optional): _description_. Defaults to 9.
         """
-        self.total_price = 0
+        Calculates price when cables are shared
+        """
         for battery in self.batteries:
             cables = []
             for house in battery.houses:
-                cables += house.cables
+                cables += house.cables[:-1]
             self.total_price += battery.price + (cable_price*(len(set(cables))))
-
         return self.total_price
