@@ -29,6 +29,7 @@ def rearrange_houses(grid):
 
         # select a random house and remove it's cable
         rand_battery1, rand_battery2 = random.sample(new_grid.batteries, 2)
+        rand_battery3 = new_grid.batteries[0]
         rand_house1 = random.choice(rand_battery1.houses)
         rand_house2 = random.choice(rand_battery2.houses)
 
@@ -47,13 +48,13 @@ def rearrange_houses(grid):
         rand_battery2.houses.append(rand_house1)
 
         # find new price 
-        total_price = new_grid.total_price
         cost_diff = total_price - initial_price
 
         # check the capacity
         overload = False
-        for battery in new_grid.batteries:
-            overload += battery.check_capacity()
+        overload = check_overload(new_grid)
+        if overload == True:
+            overload_count += 1
 
         # adopt new state if price is lower than initial price
         if cost_diff < 0 and overload == False:
@@ -64,19 +65,20 @@ def rearrange_houses(grid):
         # if the new solution is not better, accept it with a probability of e^(-cost/temp)
         elif cost_diff > 0 and overload == False:
             if random.uniform(0, 1) < math.exp(-cost_diff / current_temp):
+                initial_price = total_price
                 initial_grid = copy.deepcopy(new_grid)
                 adopted += 1
-
-        else:
-            overload_count += 1
             
         # decrement the temperature
         current_temp -= alpha
 
     # visualise grid
     total_price = initial_grid.price_shared(9)
-    print(f"After 1000 iterations the total price is {total_price}")
-    print(f'overload count is equal to {overload_count}')
+    print(f"After 10000 iterations the total price is {total_price}")
+    print(f'overload_count = {overload_count}')
     print(f'Number of adopted states is {adopted}')
 
     return initial_grid
+
+def check_overload(grid):
+    return any(battery.check_capacity() for battery in grid.batteries)
