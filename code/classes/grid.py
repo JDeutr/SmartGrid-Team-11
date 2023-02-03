@@ -63,10 +63,12 @@ class Grid():
             self.total_price += battery.price + (cables * cable_price)
 
 
+   
     def price_shared(self, cable_price=9):
         """
         Calculates price when cables are shared
         """
+        self.total_price = 0
         for battery in self.batteries:
             cables = []
             for house in battery.houses:
